@@ -105,7 +105,7 @@ Con el plugin Wappalyzer podemos darnos idea de las cosas que funcionan tras el 
 
 ### wappalyzer
 
-![](htb-writeup-twomillion/wappalyzer1.png
+![](htb-writeup-twomillion/wappalyzer1.png)
 
 Bueno por ahora nada valioso, solo que usa PHP como lenguaje de programación, y que la página se ve como era hace un 
 par de años.
