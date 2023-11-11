@@ -27,11 +27,14 @@ mkdir twomillion
 cd twomillion
 mkdir nmap content exploit
 ```
+{: .nolineno}
+
 ### nmap
 
 ```bash
 sudo nmap -p- --open -sS --min-rate 5000 -Pn -n -sCV 10.10.11.221 -oN version-port
 ```
+{: .nolineno}
 
 ### version-port
 
@@ -49,6 +52,7 @@ PORT   STATE SERVICE VERSION
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ```
+{: .nolineno}
 
 - 22: ssh
 	+ De momento no voy a tocar este puerto, no cuento con credenciales y la versión de OpenSSH no parece tener una vulnera
@@ -76,6 +80,7 @@ ff02::2    ip6-allrouters
 
 10.10.11.221    2million.htb
 ```
+{: .nolineno}
 
 Ahora hagamos algo de reconocimiento web para identificar tecnologías, gestores de contenido y otras cosas con herramientas bás
 icas como ( whatweb , wappalyzer )
@@ -83,6 +88,7 @@ icas como ( whatweb , wappalyzer )
 ```bash
 whatweb 10.10.11.221
 ```
+{: .nolineno}
 
 ### whatweb
 
@@ -136,6 +142,7 @@ Desde la terminal, podemos hacer eso
 ```bash
 curl -s -X POST http://2million.htb/api/v1/invite/how/to/generate | jq
 ```
+{: .nolineno}
 
 ![](htb-writeup-twomillion/curl1.png)
 
@@ -148,6 +155,8 @@ Con esto si nos da algo en base 64, y con una linea puedo decodificarlo
 ```bash
 echo QUcyUVctOFBaVUgtV1JSTEstT0tVQzY= | base64 -d ;echo
 ```
+{: .nolineno}
+
 ![](htb-writeup-twomillion/curl3.png)
 
 Listo con el código podemos ponerlo en la web, y eso nos lleva a un apartado para poder registrarnos, una vez nos logiemos 
@@ -264,6 +273,8 @@ Listo , ahora ganemos un Reverse shell ya basta de bobadas :v
 
 ![](htb-writeup-twomillion/burp13.png)
 
+## intrusion
+
 ### reverse shell
 
 ![](htb-writeup-twomillion/burp14.png)
@@ -287,6 +298,7 @@ tenemos que convertir esto a una consola completamente interactiva
 www-data@2million:~/html$ ls
 Database.php  Router.php  VPN  assets  controllers  css  fonts  images  index.php  js  views
 ```
+{: .nolineno}
 
 ### ls -la
 
@@ -308,6 +320,7 @@ drwxr-xr-x  2 root root 4096 Jun  6 10:22 images
 drwxr-xr-x  3 root root 4096 Jun  6 10:22 js
 drwxr-xr-x  2 root root 4096 Jun  6 10:22 views
 ```
+{: .nolineno}
 
 Tenemos una archivo interesante `.env` este se usa para almacenar alguna variables de entorno
 
@@ -318,6 +331,7 @@ DB_DATABASE=htb_prod
 DB_USERNAME=admin
 DB_PASSWORD=SuperDuperPass123
 ```
+{: .nolineno}
 
 Revisando el archivo de usuarios para saber con cual se pueden reutilizar estas credenciales
 
@@ -361,11 +375,12 @@ admin:x:1000:1000::/home/admin:/bin/bash
 memcache:x:115:121:Memcached,,,:/nonexistent:/bin/false
 _laurel:x:998:998::/var/log/laurel:/bin/false
 ```
+{: .nolineno}
 
 vemos que existe `admin:x:1000:1000::/home/admin:/bin/bash` y ademas tiene una ruta personal en `/home/admin`
 para estár más cómodos, recuerden que tenemos el puero 22 con ssh, y justo eso voy a hacer
 
-## flag usuario admin
+### flag usuario admin
 
 ![](htb-writeup-twomillion/admin1.png)
 
@@ -375,6 +390,7 @@ y si eso no tiene éxito busco archivos que le pertenezcan a admin o estén en e
 ```bash
 find / -name admin 2>/dev/null
 ```
+{: .nolineno}
 
 ![](htb-writeup-twomillion/admin2.png)
 
@@ -385,6 +401,8 @@ ahora voy de curioso a ver el archivo `/var/main/admin`
 De todo lo que dice me llama la atención que hablan de una vulnerabilidad que tiene de nombre `OverlayFS / FUSE`, después de bu
 scar en google, di con un CVE potencial
 - [CVE-2023-0386](https://github.com/xkaneiki/CVE-2023-0386)
+
+## escalada de privilegios
 
 ![](htb-writeup-twomillion/admin4.png)
 
@@ -407,7 +425,7 @@ ejecutamos los vinarios en consolas diferentes
 
 ![](htb-writeup-twomillion/admin7.png)
 
-## flag de root
+### flag de root
 
 ![](htb-writeup-twomillion/admin8.png)
 
