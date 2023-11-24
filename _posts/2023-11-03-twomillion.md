@@ -38,7 +38,7 @@ sudo nmap -p- --open -sS --min-rate 5000 -Pn -n -sCV 10.10.11.221 -oN version-po
 
 ### version-port
 
-```bash
+```ruby
 Nmap scan report for 10.10.11.221
 Host is up (0.095s latency).
 Not shown: 65533 closed tcp ports (reset)
