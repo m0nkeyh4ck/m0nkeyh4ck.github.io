@@ -2,8 +2,8 @@
 layout: post
 title: Twomillion - Hack The Box
 date: 2023-11-03
-categories: [htb, easy]
-tags: [web, credential, cve]
+categories: [htb, linux]
+tags: [web, credential, cve, easy]
 image:
   path: htb-writeup-twomillion/twomillion_logo.png
   alt: twomillion
