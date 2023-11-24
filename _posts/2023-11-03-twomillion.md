@@ -94,7 +94,7 @@ whatweb 10.10.11.221
 
 ![](htb-writeup-twomillion/whatweb1.png)
 
-Listo ahora veamos cómo se luce la página desde firefox
+Listo ahora veamos cómo luce la página desde firefox
 
 
 ### firefox
